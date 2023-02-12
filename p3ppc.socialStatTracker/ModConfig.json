@@ -10,15 +10,55 @@
   "ModR2RManagedDll64": "x64/p3ppc.socialStatTracker.dll",
   "ModNativeDll32": "",
   "ModNativeDll64": "",
+  "Tags": [
+    "GUI/HUD"
+  ],
+  "CanUnload": null,
+  "HasExports": null,
   "IsLibrary": false,
   "ReleaseMetadataFileName": "p3ppc.socialStatTracker.ReleaseMetadata.json",
-  "PluginData": {},
+  "PluginData": {
+    "GitHubDependencies": {
+      "IdToConfigMap": {
+        "Reloaded.Memory.SigScan.ReloadedII": {
+          "Config": {
+            "UserName": "Reloaded-Project",
+            "RepositoryName": "Reloaded.Memory.SigScan",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "Reloaded.Memory.SigScan.ReloadedII.ReleaseMetadata.json"
+        },
+        "reloaded.sharedlib.hooks": {
+          "Config": {
+            "UserName": "Sewer56",
+            "RepositoryName": "Reloaded.SharedLib.Hooks.ReloadedII",
+            "UseReleaseTag": true,
+            "AssetFileName": "reloaded.sharedlib.hooks.zip"
+          },
+          "ReleaseMetadataName": "Sewer56.Update.ReleaseMetadata.json"
+        }
+      }
+    },
+    "GitHubRelease": {
+      "UserName": "AnimatedSwine37",
+      "RepositoryName": "p3ppc.socialStatTracker",
+      "UseReleaseTag": true,
+      "AssetFileName": "Mod.zip"
+    },
+    "GameBanana": {
+      "ItemType": "Mod",
+      "ItemId": 427207
+    }
+  },
   "IsUniversalMod": false,
   "ModDependencies": [
-    "reloaded.sharedlib.hooks",
-    "Reloaded.Memory.SigScan.ReloadedII"
+    "Reloaded.Memory.SigScan.ReloadedII",
+    "reloaded.sharedlib.hooks"
   ],
   "OptionalDependencies": [],
-  "SupportedAppId": ["p3p.exe"],
-  "ProjectUrl": ""
+  "SupportedAppId": [
+    "p3p.exe"
+  ],
+  "ProjectUrl": "https://gamebanana.com/mods/427207"
 }
