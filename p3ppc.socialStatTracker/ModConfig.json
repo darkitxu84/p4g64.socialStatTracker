@@ -1,0 +1,24 @@
+{
+  "ModId": "p3ppc.socialStatTracker",
+  "ModName": "Social Stat Tracker",
+  "ModAuthor": "AnimatedSwine37",
+  "ModVersion": "1.0.0",
+  "ModDescription": "Displays how many points you need to level up each social stat in the status menu",
+  "ModDll": "p3ppc.socialStatTracker.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "x86/p3ppc.socialStatTracker.dll",
+  "ModR2RManagedDll64": "x64/p3ppc.socialStatTracker.dll",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "p3ppc.socialStatTracker.ReleaseMetadata.json",
+  "PluginData": {},
+  "IsUniversalMod": false,
+  "ModDependencies": [
+    "reloaded.sharedlib.hooks",
+    "Reloaded.Memory.SigScan.ReloadedII"
+  ],
+  "OptionalDependencies": [],
+  "SupportedAppId": ["p3p.exe"],
+  "ProjectUrl": ""
+}
