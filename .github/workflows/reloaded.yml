@@ -13,6 +13,9 @@
 
 name: Build and Publish Reloaded Mod
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [ master ]
