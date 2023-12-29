@@ -129,7 +129,7 @@ namespace p3ppc.socialStatTracker
         private readonly short[][] _pointsRequired = { 
             new short[]{ 0, 20, 55, 100, 155, 230 }, 
             new short[]{ 0, 15, 30, 45, 70, 100 },
-            new short[]{ 0, 15, 30, 45, 65, 80 }
+            new short[]{ 0, 15, 30, 45, 60, 80 }
         };
 
         [Function( new Register[] { Register.rax, Register.r12, Register.rbx }, Register.rax, true)]
