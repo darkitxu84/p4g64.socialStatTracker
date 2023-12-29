@@ -2,7 +2,7 @@
   "ModId": "p3ppc.socialStatTracker",
   "ModName": "Social Stat Tracker",
   "ModAuthor": "AnimatedSwine37",
-  "ModVersion": "1.0.0",
+  "ModVersion": "1.0.1",
   "ModDescription": "Displays how many points you need to level up each social stat in the status menu",
   "ModDll": "p3ppc.socialStatTracker.dll",
   "ModIcon": "Preview.png",
