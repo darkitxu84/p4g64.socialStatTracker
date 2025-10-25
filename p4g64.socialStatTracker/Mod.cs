@@ -57,7 +57,7 @@ namespace p4g64.socialStatTracker
         private IReverseWrapper<AppendPointsDelegate> _appendPointsReverseWrapper;
         private short* _socialStatPoints;
 
-        const string getSocialStatLevelNameFuncSig = "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 20 0F B7 F9 0F B7 DA 48 8D 0D ?? ?? ?? ?? E8 ?? ?? ?? ?? 48 8B 35 ?? ?? ?? ?? 8D 43 ?? 48 83 C6 08";
+        const string getSocialStatLevelNameFuncSig = "E8 ?? ?? ?? ?? 44 39 25 ?? ?? ?? ?? 48 8B C8";
         const int socialStatPointsOffset = 0x51BCD70 + 0xCA8;
 
         public Mod(ModContext context)
@@ -101,7 +101,7 @@ namespace p4g64.socialStatTracker
                     "pop r11\npop r10\npop r9\npop r8\npop rdx\npop rcx"
                 };
                 // baseAdress + offset points to the function begin, so we add an extra offset
-                _socialStatusLevelNameHook = _hooks.CreateAsmHook(function, baseAddress + result.Offset + 176, AsmHookBehaviour.ExecuteAfter).Activate();
+                _socialStatusLevelNameHook = _hooks.CreateAsmHook(function, baseAddress + result.Offset, AsmHookBehaviour.ExecuteAfter).Activate();
             });
         }
 
