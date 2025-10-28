@@ -1,15 +1,13 @@
-﻿using p4g64.socialStatTracker.Template;
-using p4g64.socialStatTracker.Configuration;
+﻿using p4g64.socialStatTracker.Configuration;
+using p4g64.socialStatTracker.Template;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.Enums;
 using Reloaded.Hooks.Definitions.X64;
-using Reloaded.Hooks.ReloadedII.Interfaces;
-using Reloaded.Memory.SigScan.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
-using System.Diagnostics;
+using static p4g64.socialStatTracker.Text;
+using static p4g64.socialStatTracker.Utils;
 using static Reloaded.Hooks.Definitions.X64.FunctionAttribute;
 using IReloadedHooks = Reloaded.Hooks.ReloadedII.Interfaces.IReloadedHooks;
-using p3ppc.socialStatTracker;
 
 // Code adapted from Social Stat Tracker by AnimatedSwine
 // https://github.com/AnimatedSwine37/p3ppc.socialStatTracker
@@ -52,13 +50,23 @@ namespace p4g64.socialStatTracker
         /// </summary>
         private readonly IModConfig _modConfig;
 
-
-        private IAsmHook _socialStatusLevelNameHook;
-        private IReverseWrapper<AppendPointsDelegate> _appendPointsReverseWrapper;
         private short* _socialStatPoints;
 
-        const string getSocialStatLevelNameFuncSig = "E8 ?? ?? ?? ?? 44 39 25 ?? ?? ?? ?? 48 8B C8";
+        private IAsmHook? _postRenderHook;
+        private IReverseWrapper<PostRenderDelegate>? _postRenderReverseWrapper;
+
+        const string postRenderSig = "48 8B 05 ?? ?? ?? ?? 45 0F 28 EA";
         const int socialStatPointsOffset = 0x51BCD70 + 0xCA8;
+        private readonly static RevColour colour = new() { R = 0x11, G = 0x11, B = 0x11, A = 0xFF };
+
+        private readonly static TextPos[] textPos =
+        [
+            new(335, 70), // courage
+            new(260, 140), // knowledge
+            new(432, 140), // diligence
+            new(390, 233), // understanding
+            new(290, 233) // expression
+        ];
 
         public Mod(ModContext context)
         {
@@ -68,70 +76,74 @@ namespace p4g64.socialStatTracker
             _owner = context.Owner;
             _configuration = context.Configuration;
             _modConfig = context.ModConfig;
-            nint baseAddress = Process.GetCurrentProcess().MainModule!.BaseAddress;
 
-            Utils.Initialise(_logger, _configuration);
-            IntPtr targetAddress = IntPtr.Add(baseAddress, socialStatPointsOffset);
+            Initialise(_logger, _configuration, _modLoader);
+            Text.Initialise(_hooks!);
 
+            IntPtr targetAddress = IntPtr.Add(BaseAddress, socialStatPointsOffset);
             _socialStatPoints = (short*)targetAddress.ToPointer();
 
-            var startupScannerController = _modLoader.GetController<IStartupScanner>();
-            if (startupScannerController == null || !startupScannerController.TryGetTarget(out var startupScanner))
+            SigScan(postRenderSig, "PostRender at StatusMenuStuff", address =>
             {
-                Utils.LogError($"Unable to get controller for Reloaded SigScan Library, aborting initialisation");
-                return;
-            }
-
-            startupScanner.AddMainModuleScan(getSocialStatLevelNameFuncSig, result =>
-            {
-                if (!result.Found)
-                {
-                    Utils.LogError($"Unable to find GetSocialStatLevelName, aborting initialisation");
-                    return;
-                }
-                Utils.LogDebug($"found GetSocialStatLevelName function at 0x{result.Offset + baseAddress:X}");
-
                 string[] function =
                 {
                     "use64",
                     "push rcx\npush rdx\npush r8\npush r9\npush r10\npush r11",
                     "sub rsp, 32",
-                    $"{_hooks.Utilities.GetAbsoluteCallMnemonics(AppendPoints, out _appendPointsReverseWrapper)}",
+                    $"{_hooks.Utilities.GetAbsoluteCallMnemonics(PostRender, out _postRenderReverseWrapper)}",
                     "add rsp, 32",
-                    "pop r11\npop r10\npop r9\npop r8\npop rdx\npop rcx"
+                    "pop r11\npop r10\npop r9\npop r8\npop rdx\npop rcx",
                 };
-                // baseAdress + offset points to the function begin, so we add an extra offset
-                _socialStatusLevelNameHook = _hooks.CreateAsmHook(function, baseAddress + result.Offset, AsmHookBehaviour.ExecuteAfter).Activate();
+                _postRenderHook = _hooks.CreateAsmHook(function, address, AsmHookBehaviour.ExecuteAfter).Activate();
             });
         }
 
-        // stat is actually stat index
-        private string AppendPoints(string message, short stat, short statLevel)
+        private nint PostRender(nint rax)
         {
-            // remove this logs for mod release
-            _logger.WriteLineAsync($"[INFO] (Social Stat Tracker) stat index: {stat}");
-            _logger.WriteLineAsync($"[INFO] (Social Stat Tracker) points: {_socialStatPoints[stat]}");
-            return $"{message} p:{_socialStatPoints[stat]}";
-
-            /*
-            short points = _socialStatPoints[stat];
-            short lastRequired = _pointsRequired[stat][statLevel - 1];
-
-            if (statLevel == 6)
+            for (int i = 0; i < 5; i++) // five social stats
             {
-                if (!_configuration.ShowAboveMax || points - lastRequired == 0)
-                    return message;
-                return $"{message} +{points - lastRequired}";
+                short points = _socialStatPoints[i];
+                short currentRank = 0;
+                string text;
+
+                if (points >= _pointsRequired[i][4])
+                {
+                    currentRank = 4;
+                }
+                else
+                {
+                    for (short j = 0; j < 5; j++) // five ranks per social stat
+                    {
+                        if (points < _pointsRequired[i][j])
+                        {
+                            currentRank = (short)(j - 1);
+                            break;
+                        }
+                    }
+                }
+
+                if (currentRank == 4) // TODO: add to config show above max
+                    text = $"+{_pointsRequired[i][4] - points}";
+                else
+                    text = $"{points - _pointsRequired[i][currentRank]}/{_pointsRequired[i][currentRank + 1] - _pointsRequired[i][currentRank]}";
+
+                Text.Draw(textPos[i].x, textPos[i].y, 0, colour, 0, 2, text, Text.Positioning.Left);
             }
 
-            short required = _pointsRequired[stat][statLevel];
-
-            return $"{message} {points - lastRequired}/{required - lastRequired}";
-            */
+            return rax;
         }
 
-        [Function(new Register[] { Register.rax, Register.rdi, Register.r8 }, Register.rax, true )]
-        private delegate string AppendPointsDelegate(string message, short stat, short statLevel);
+        private static readonly short[][] _pointsRequired =
+        {
+            [0, 16, 40, 80, 140], // courage
+            [0, 30, 80, 150, 240], // knowledge
+            [0, 16, 40, 80, 130], // diligence
+            [0, 16, 40, 80, 140], // understanding
+            [0, 13, 33, 53, 85], // expression
+        };
+
+        [Function(new Register[] { Register.rax }, Register.rax, false)]
+        private delegate nint PostRenderDelegate(nint rax);
 
         #region Standard Overrides
         public override void ConfigurationUpdated(Config configuration)

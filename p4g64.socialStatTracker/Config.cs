@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using p4g64.socialStatTracker.Template.Configuration;
+﻿using p4g64.socialStatTracker.Template.Configuration;
 using Reloaded.Mod.Interfaces.Structs;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace p4g64.socialStatTracker.Configuration
 {

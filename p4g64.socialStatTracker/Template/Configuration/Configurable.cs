@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
+﻿using Reloaded.Mod.Interfaces;
+using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Reloaded.Mod.Interfaces;
 
 namespace p4g64.socialStatTracker.Template.Configuration
 {
