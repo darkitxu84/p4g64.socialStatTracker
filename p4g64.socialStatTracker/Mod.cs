@@ -127,7 +127,7 @@ namespace p4g64.socialStatTracker
                 else
                     text = $"{points - _pointsRequired[i][currentRank]}/{_pointsRequired[i][currentRank + 1] - _pointsRequired[i][currentRank]}";
 
-                Text.Draw(textPos[i].x, textPos[i].y, 0, colour, 0, 2, text, Text.Positioning.Left);
+                Text.Draw(textPos[i].x, textPos[i].y, 0, colour, 0, 2, text, Text.Positioning.Center);
             }
 
             return rax;
