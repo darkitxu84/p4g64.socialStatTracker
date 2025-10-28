@@ -27,96 +27,23 @@ namespace p4g64.socialStatTracker.Configuration
             The `DefaultValue` attribute is used as part of the `Reset` button in Reloaded-Launcher.
         */
 
-        [DisplayName("String")]
-        [Description("This is a string.")]
-        [DefaultValue("Default Name")]
-        public string String { get; set; } = "Default Name";
-
-        [DisplayName("Int")]
-        [Description("This is an int.")]
-        [DefaultValue(42)]
-        public int Integer { get; set; } = 42;
-
-        [DisplayName("Bool")]
-        [Description("This is a bool.")]
+        // CHANGE ME my english is bad
+        [DisplayName("Show Above Max")]
+        [Description("CHANGE ME")]
         [DefaultValue(true)]
-        public bool Boolean { get; set; } = true;
+        public bool ShowAboveMax { get; set; } = true;
 
-        [DisplayName("Float")]
-        [Description("This is a floating point number.")]
-        [DefaultValue(6.987654F)]
-        public float Float { get; set; } = 6.987654F;
+        [DisplayName("Debug Mode")]
+        [Description("Logs additional information to the console.")]
+        [DefaultValue(false)]
+        public bool DebugEnabled { get; set; } = false;
 
-        [DisplayName("Enum")]
-        [Description("This is an enumerable.")]
-        [DefaultValue(SampleEnum.ILoveIt)]
-        public SampleEnum Reloaded { get; set; } = SampleEnum.ILoveIt;
+        // CHANGE ME my english is bad
+        [DisplayName("Display Top")]
+        [Description("CHANGE ME")]
+        [DefaultValue(false)]
+        public bool DisplayTop { get; set; } = true;
 
-        public enum SampleEnum
-        {
-            [Display(Name = "No Opinion 🤷")]
-            NoOpinion,
-            [Display(Name = "It's Sucks! 👎")]
-            Sucks,
-            [Display(Name = "It's mediocre 😐")]
-            IsMediocre,
-            [Display(Name = "It's okay! 👍")]
-            IsOk,
-            [Display(Name = "It's cool! 😎")]
-            IsCool,
-            [Display(Name = "I Love It!!! ❤️🔥")]
-            ILoveIt,
-        }
-
-        [DisplayName("Int Slider")]
-        [Description("This is a int that uses a slider control similar to a volume control slider.")]
-        [DefaultValue(100)]
-        [SliderControlParams(
-            minimum: 0.0,
-            maximum: 100.0,
-            smallChange: 1.0,
-            largeChange: 10.0,
-            tickFrequency: 10,
-            isSnapToTickEnabled: false,
-            tickPlacement: SliderControlTickPlacement.BottomRight,
-            showTextField: true,
-            isTextFieldEditable: true,
-            textValidationRegex: "\\d{1-3}")]
-        public int IntSlider { get; set; } = 100;
-
-        [DisplayName("Double Slider")]
-        [Description("This is a double that uses a slider control without any frills.")]
-        [DefaultValue(0.5)]
-        [SliderControlParams(minimum: 0.0, maximum: 1.0)]
-        public double DoubleSlider { get; set; } = 0.5;
-
-        [DisplayName("File Picker")]
-        [Description("This is a sample file picker.")]
-        [DefaultValue("")]
-        [FilePickerParams(title: "Choose a File to load from")]
-        public string File { get; set; } = "";
-
-        [DisplayName("Folder Picker")]
-        [Description("Opens a file picker but locked to only allow folder selections.")]
-        [DefaultValue("")]
-        [FolderPickerParams(
-            initialFolderPath: Environment.SpecialFolder.Desktop,
-            userCanEditPathText: false,
-            title: "Custom Folder Select",
-            okButtonLabel: "Choose Folder",
-            fileNameLabel: "ModFolder",
-            multiSelect: true,
-            forceFileSystem: true)]
-        public string Folder { get; set; } = "";
-
-        [Display(Order = 0)]
-        public int OrderFirst { get; set; }
-
-        [Display(Order = 1)]
-        public int OrderSecond { get; set; }
-
-        [Display(Order = 2)]
-        public int OrderThird { get; set; }
     }
 
     /// <summary>

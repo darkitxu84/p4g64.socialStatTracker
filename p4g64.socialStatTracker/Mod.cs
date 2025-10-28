@@ -55,17 +55,19 @@ namespace p4g64.socialStatTracker
         private IAsmHook? _postRenderHook;
         private IReverseWrapper<PostRenderDelegate>? _postRenderReverseWrapper;
 
+        const float displayTopOffset = -37.5f;
         const string postRenderSig = "48 8B 05 ?? ?? ?? ?? 45 0F 28 EA";
         const int socialStatPointsOffset = 0x51BCD70 + 0xCA8;
         private readonly static RevColour colour = new() { R = 0x11, G = 0x11, B = 0x11, A = 0xFF };
 
+        // change this to adjust the pos of the txt
         private readonly static TextPos[] textPos =
         [
-            new(335, 70), // courage
-            new(260, 140), // knowledge
-            new(432, 140), // diligence
-            new(390, 233), // understanding
-            new(290, 233) // expression
+            new(332, 72), // courage
+            new(243, 138), // knowledge
+            new(418, 138), // diligence
+            new(382, 230), // understanding
+            new(277, 230) // expression
         ];
 
         public Mod(ModContext context)
@@ -108,6 +110,8 @@ namespace p4g64.socialStatTracker
 
                 if (points >= _pointsRequired[i][4])
                 {
+                    if (!_configuration.ShowAboveMax) // skip the stat if we're above max and showabovemax is false
+                        continue;
                     currentRank = 4;
                 }
                 else
@@ -122,12 +126,19 @@ namespace p4g64.socialStatTracker
                     }
                 }
 
-                if (currentRank == 4) // TODO: add to config show above max
-                    text = $"+{_pointsRequired[i][4] - points}";
+                if (currentRank == 4)
+                    text = $"+{points - _pointsRequired[i][4]}";
                 else
                     text = $"{points - _pointsRequired[i][currentRank]}/{_pointsRequired[i][currentRank + 1] - _pointsRequired[i][currentRank]}";
 
-                Text.Draw(textPos[i].x, textPos[i].y, 0, colour, 0, 2, text, Text.Positioning.Center);
+                Text.Draw(textPos[i].x,
+                    textPos[i].y + (_configuration.DisplayTop ? displayTopOffset : 0),
+                    0,
+                    colour,
+                    0,
+                    (_configuration.DisplayTop ? (byte)3 : (byte)2), // adjust text size so it can enter
+                    text,
+                    Text.Positioning.Center);
             }
 
             return rax;

@@ -31,8 +31,8 @@ namespace p4g64.socialStatTracker
         }
         internal static void LogDebug(string message)
         {
-            // if (_config.DebugEnabled)
-            _logger.WriteLine($"[Social Stat Tracker] {message}");
+            if (_config.DebugEnabled)
+                _logger.WriteLine($"[Social Stat Tracker] {message}");
         }
 
         internal static void Log(string message)
@@ -58,7 +58,7 @@ namespace p4g64.socialStatTracker
                     LogError($"Unable to find {name}, stuff won't work :(");
                     return;
                 }
-                Log($"Found {name} at 0x{result.Offset + BaseAddress:X}");
+                LogDebug($"Found {name} at 0x{result.Offset + BaseAddress:X}");
 
                 action(result.Offset + BaseAddress);
             });
