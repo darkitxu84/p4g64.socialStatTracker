@@ -40,7 +40,7 @@ namespace p4g64.socialStatTracker.Configuration
 
         // CHANGE ME my english is bad
         [DisplayName("Display Top")]
-        [Description("Renders the text above the social stat instead of below.")]
+        [Description("Renders the text above the social stat instead of under it.")]
         [DefaultValue(false)]
         public bool DisplayTop { get; set; } = true;
 
