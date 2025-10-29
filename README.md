@@ -1,11 +1,14 @@
 # p4g64.socialStatTracker
-(Also on..) Displays how many more points you need to rank up each social stat in the status menu. Also displays how many points over max you have for any maxed social stats up to 999 points (can be toggled in the config).
+Displays how many points you need to rank up each social stat in the status menu. Also displays how many points over the maximum you have for each maxed social stat up to 999 points. (Can be toggled in config)
 
-In regards to seeing the number of points over max you have, unlike P5R where the game does not cap the amount you can get, in P4G it is capped to 999 points (?) for each stat (gaining any more will do nothing). That means that the maximum you can get is +769 for academics, +899 for charm, and +919 for courage.
+An additional config option to display the points earned / points required text above the social stat instead of below it is also available. This is enabled by default. Please disable it if you prefer bottom rendering!
 
-Note that the number of points you get at any point can be estimated by the end of the message shown. The messages are grouped as follows:
-- Increased = 1-2 points
-- Greatly increased = 3-5 points
-- Significantly increased = 6+ points
+Unlike P5R, where social stats are not capped. P4G caps at 999 for each stat, the same as P3P.
 
-For example: "Your Courage has greatly increased" means you've gained between 3 and 5 courage points inclusive.
+Note that the number of points earned at any point can be measured by the type of message shown. They're grouped as follows:
+
+- Increased = 1-3 points
+- Greatly increased = 4-5 points
+- Significantly increased = 6+
+
+For example: "Your Diligence has greatly increased" means you've gained between 4-5 points inclusive.
