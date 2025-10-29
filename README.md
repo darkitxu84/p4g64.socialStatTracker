@@ -1,5 +1,7 @@
 # p4g64.socialStatTracker
-Displays how many points you need to rank up each social stat in the status menu. Also displays how many points over the maximum you have for each maxed social stat up to 999 points. (Can be toggled in config)
+(Also on gamebanana:) 
+
+Displays how many points you need to rank up each social stat in the status menu. Also displays how many points over the maximum you have for each maxed social stat up to 999 points by default. (Can be toggled in config)
 
 An additional config option to display the points earned / points required text above the social stat instead of below it is also available. This is enabled by default. Please disable it if you prefer bottom rendering!
 
