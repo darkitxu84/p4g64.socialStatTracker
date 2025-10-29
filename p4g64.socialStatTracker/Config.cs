@@ -29,7 +29,7 @@ namespace p4g64.socialStatTracker.Configuration
 
         // CHANGE ME my english is bad
         [DisplayName("Show Above Max")]
-        [Description("CHANGE ME")]
+        [Description("Displays points after maxing a social stat.")]
         [DefaultValue(true)]
         public bool ShowAboveMax { get; set; } = true;
 
@@ -40,7 +40,7 @@ namespace p4g64.socialStatTracker.Configuration
 
         // CHANGE ME my english is bad
         [DisplayName("Display Top")]
-        [Description("CHANGE ME")]
+        [Description("Renders the text above the social stat instead of below.")]
         [DefaultValue(false)]
         public bool DisplayTop { get; set; } = true;
 
